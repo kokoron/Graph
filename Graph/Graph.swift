@@ -25,14 +25,19 @@ public enum Graph<T: Hashable, U: Numeric> {
         )
     }
     
+    static public func lineGraph(tuples: [(T, U)], minValue: U, maxValue: U, nameHandler: ((U) -> String?)? = nil, valueHandler: ((T) -> String?)? = nil) -> Graph<T, U> {
+        return .LineGraph(
+            GraphData(
+                graphUnits: tuples.map{GraphUnit<T, U>(key: $0.0, value: [$0.1])},
+                grapthParams: GraphParams(maximumValue: maxValue, minimumValue: minValue)
+            )
+        )
+    }
+    
     //    static public func pieChart(tuples: [(T, U)]) -> Graph<T, U> {
     //        return .PieChart(units(tuples))
     //    }
     
-    
-    public func view(frame: CGRect) -> GraphView<T, U> {
-        return GraphView(frame: frame, graph: self)
-    }
     
     static private func units(tuples: [(T, U)]) -> [GraphUnit<T, U>] {
         return tuples.map{GraphUnit(key: $0.0, value: [$0.1])}
@@ -110,6 +115,8 @@ public struct GraphUnit<T: Hashable, U: Numeric> {
 }
 
 public protocol Numeric: Equatable {}
+
+extension Numeric {}
 extension Float: Numeric {}
 extension Double: Numeric {}
 extension Int: Numeric {}

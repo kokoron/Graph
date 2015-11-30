@@ -27,8 +27,8 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     private let minValue: U
     private let maxValue: U
     private let barColors: [UIColor]
+    private let blankColor: UIColor
     private let barWidthRatio: CGFloat
-    
     
     
     private lazy var bars: [BarView] = self.graphUnit.rates(self.minValue, maxValue: self.maxValue).map{
@@ -60,10 +60,11 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         self.minValue = minValue
         self.maxValue = maxValue
         self.barColors = barColors
+        self.blankColor = blankColor
         self.barWidthRatio = barWidthRatio
         super.init(frame: frame)
         
-        self.backgroundColor = blankColor   
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -71,10 +72,17 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     }
 
     func execute() {
+        
+        self.backgroundColor = UIColor.clearColor()
+        let blankView = UIView(frame: self.bounds)
+        blankView.transform = CGAffineTransformMakeScale(CGFloat(self.barWidthRatio), 1.0)
+        blankView.backgroundColor = self.blankColor
+        self.addSubview(blankView)
+        blankView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
         self.setBackgroundColors(self.bars, colors: self.barColors)
         self.bars.forEach({self.addSubview($0)})
         self.labels.forEach{self.addSubview($0)}
-        
     }
     
     
