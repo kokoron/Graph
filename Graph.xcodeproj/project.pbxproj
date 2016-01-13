@@ -11,6 +11,7 @@
 		E96B974B1C058BBB007CE432 /* BarGraphUnitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96B974A1C058BBB007CE432 /* BarGraphUnitView.swift */; };
 		E98315631C044CBB0060CEC2 /* Graph.h in Headers */ = {isa = PBXBuildFile; fileRef = E98315621C044CBB0060CEC2 /* Graph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E983156B1C044CDC0060CEC2 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E983156A1C044CDC0060CEC2 /* GraphView.swift */; };
+		E9CC6DD31C0C201700B8CD56 /* LineGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6DD21C0C201700B8CD56 /* LineGraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		E98315621C044CBB0060CEC2 /* Graph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
 		E98315641C044CBB0060CEC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E983156A1C044CDC0060CEC2 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		E9CC6DD21C0C201700B8CD56 /* LineGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				E96B97481C058B4C007CE432 /* Graph.swift */,
 				E983156A1C044CDC0060CEC2 /* GraphView.swift */,
 				E96B974A1C058BBB007CE432 /* BarGraphUnitView.swift */,
+				E9CC6DD21C0C201700B8CD56 /* LineGraphView.swift */,
 				E98315641C044CBB0060CEC2 /* Info.plist */,
 			);
 			path = Graph;
@@ -141,6 +144,7 @@
 				E96B97491C058B4D007CE432 /* Graph.swift in Sources */,
 				E983156B1C044CDC0060CEC2 /* GraphView.swift in Sources */,
 				E96B974B1C058BBB007CE432 /* BarGraphUnitView.swift in Sources */,
+				E9CC6DD31C0C201700B8CD56 /* LineGraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +250,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Graph/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.enw.Graph;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -264,6 +269,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Graph/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.enw.Graph;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -12,7 +12,7 @@ import Graph
 
 class DetailViewController: UIViewController {
 
-    var detailItem: Graph<String, Int>? {
+    var detailItem: (String, [Graph<String, Int>], GraphViewAppearance)? {
         didSet {
             
         }
@@ -20,7 +20,9 @@ class DetailViewController: UIViewController {
 
     func configureView() {
         
-        if let view = self.detailItem?.view(self.view.frame) {
+        if let detailItem = self.detailItem {
+            
+            let view = GraphView(frame: self.view.bounds, graphs: detailItem.1, appearance: detailItem.2)
             self.view.addSubview(view)
             self.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         }

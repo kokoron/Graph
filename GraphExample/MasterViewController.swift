@@ -15,12 +15,17 @@ class MasterViewController: UITableViewController {
     var objects = [
         (
             "棒グラフ",
-            Graph.barGraph([("Jan.", 1), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 10)
-        )/*,
+            [Graph.barGraph([("Jan.", 1), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 30)],
+            GraphViewAppearance()
+        ),
         (
-            "円グラフ",
-            Graph.pieChart([("Jan.", 1), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)])
-        )*/
+            "棒グラフ＆折線グラフ",
+            [
+                Graph.barGraph([("Jan.", 1), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 10),
+                Graph.lineGraph([("Jan.", 8), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 50)
+            ],
+            GraphViewAppearance(colors: [UIColor.lightGrayColor()], textColors: nil, blankColor: nil, barWidthRatio: nil, dotDiameter: nil, font: nil)
+        )
     ]
 
 
@@ -54,7 +59,7 @@ class MasterViewController: UITableViewController {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let object = objects[indexPath.row]
                 let controller = (segue.destinationViewController as! UINavigationController).topViewController as! DetailViewController
-                controller.detailItem = object.1
+                controller.detailItem = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
