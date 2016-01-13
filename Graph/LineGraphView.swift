@@ -100,5 +100,11 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
             })
         })
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
+    }
 
 }
