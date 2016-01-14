@@ -27,25 +27,28 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     private let minValue: U
     private let maxValue: U
     private let barColors: [UIColor]
+    private let valueColors: [UIColor]
     private let blankColor: UIColor
     private let barWidthRatio: CGFloat
     
     
-    private lazy var bars: [BarView] = self.graphUnit.rates(self.minValue, maxValue: self.maxValue).map{
-        (CGRect(x: 0.0, y: self.frame.size.height - self.frame.size.height * CGFloat($0), width: self.frame.size.width, height: self.frame.size.height * CGFloat($0)), $0)
+    private lazy var bars: [BarView] = self.graphUnit.rates(self.minValue, maxValue: self.maxValue).map{(rate) -> (CGRect, Float) in
+        let h = self.frame.size.height - 20.0
+        return (CGRect(x: 0.0, y: h - h * CGFloat(rate), width: self.frame.size.width, height: h * CGFloat(rate)), rate)
     }.map{BarView(frame: $0, param: $1)}.map{(v) -> BarView in
         v.transform = CGAffineTransformMakeScale(CGFloat(self.barWidthRatio), 1.0)
         return v
     }
     
     private lazy var labels: [UILabel] = self.bars.map{b -> UILabel in
-        let label = UILabel(frame: CGRect(origin: b.frame.origin, size: CGSize(width: b.frame.size.width, height: 20.0)))
-        label.textColor = UIColor.whiteColor()
+        let label = UILabel(frame: CGRect(origin: CGPoint(x: b.frame.origin.x, y: b.frame.origin.y - 20.0), size: CGSize(width: b.frame.size.width, height: 20.0)))
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(10.0)
         label.text = String(format: "%.0f%", b.param * 100.0)
         return label
     }
+    
+    
 
     init(
         frame: CGRect,
@@ -54,12 +57,14 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         maxValue: U,
         blankColor: UIColor,
         barColors: [UIColor],
+        valueColors: [UIColor],
         barWidthRatio: CGFloat
     ) {
         self.graphUnit = graphUnit
         self.minValue = minValue
         self.maxValue = maxValue
         self.barColors = barColors
+        self.valueColors = valueColors
         self.blankColor = blankColor
         self.barWidthRatio = barWidthRatio
         super.init(frame: frame)
@@ -74,13 +79,25 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     func execute() {
         
         self.backgroundColor = UIColor.clearColor()
-        let blankView = UIView(frame: self.bounds)
+        let blankView = UIView(frame: CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.size.width, height: self.bounds.size.height - 20.0)))
         blankView.transform = CGAffineTransformMakeScale(CGFloat(self.barWidthRatio), 1.0)
         blankView.backgroundColor = self.blankColor
         self.addSubview(blankView)
         blankView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         
+        let label = UILabel(
+            frame: CGRect(
+                origin: CGPoint(x: 0.0, y: self.frame.size.height - 20.0),
+                size: CGSize(width: self.frame.size.width, height: 20.0)
+            )
+        )
+        label.textAlignment = NSTextAlignment.Center
+        label.font = UIFont.systemFontOfSize(10.0)
+        label.text = String(self.graphUnit.key)
+        self.addSubview(label)
+        
         self.setBackgroundColors(self.bars, colors: self.barColors)
+        self.setLabelsColors(self.labels, colors: self.valueColors)
         self.bars.forEach({self.addSubview($0)})
         self.labels.forEach{self.addSubview($0)}
     }
@@ -91,6 +108,16 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         case let (.Some(h, t), .Some(h2, t2)):
             h.backgroundColor = h2
             return self.setBackgroundColors(t, colors: t2)
+        case _:
+            break
+        }
+    }
+    
+    private func setLabelsColors(labels: [UILabel], colors: [UIColor]) {
+        switch (labels.match, colors.match) {
+        case let (.Some(h, t), .Some(h2, t2)):
+            h.textColor = h2
+            self.setLabelsColors(t, colors: t2)
         case _:
             break
         }

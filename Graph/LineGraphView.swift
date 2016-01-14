@@ -19,11 +19,27 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
     
     private lazy var points: [[CGPoint]] = self.makePoints(self.rates)
     
+    private lazy var labels: [UILabel] = Array(zip(self.points.first!, self.values.first!)).map{(p, v) -> UILabel in
+        let w: CGFloat = 50.0
+        let label = UILabel(frame: CGRect(
+            origin: CGPoint(
+                x: p.x - (w / 2.0),
+                y: p.y - 24.0
+            ),
+            size: CGSize(width: w, height: 20.0)))
+        label.textAlignment = NSTextAlignment.Center
+        label.textColor = self.appearance.lineValueColors.first
+        label.font = UIFont.systemFontOfSize(10.0)
+        label.text = String(v)
+        return label
+    }
+    
     init(frame: CGRect, data: GraphData<T, U>, appearance: GraphViewAppearance) {
         self.data = data
         self.appearance = appearance
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
+        self.clipsToBounds = false
     }
     
     private func changeValues(values: [[U]]) -> [[U]] {
@@ -57,7 +73,8 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
     }
     
     private func makePoints(rates: [[Float]]) -> [[CGPoint]] {
-        let ys = rates.map({$0.map({self.frame.size.height - self.frame.size.height * CGFloat($0)})})
+        let h = self.frame.size.height - 20.0
+        let ys = rates.map({$0.map({h - h * CGFloat($0)})})
         let w = self.frame.size.width / CGFloat(self.data.graphUnits.count)
         var array = [[CGPoint]]()
         for yss in ys {
@@ -76,7 +93,7 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
         let size = 10.0
 
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, self.appearance.lineColor.first?.CGColor ?? UIColor.blackColor().CGColor)
         CGContextSetLineWidth(context, 3.0)
         
         self.points.forEach({points in
@@ -92,6 +109,8 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
             })
         })
         
+        CGContextSetFillColorWithColor(context, self.appearance.lineColor.first?.CGColor ?? UIColor.blackColor().CGColor)
+        
         self.points.forEach({points in
             points.forEach({point in
                 let r = CGRect(x: point.x - CGFloat(size / 2.0), y: point.y - CGFloat(size / 2.0), width: CGFloat(size), height: CGFloat(size))
@@ -99,6 +118,11 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
                 CGContextFillEllipseInRect(context, r)
             })
         })
+        
+        self.labels.forEach { (l) -> () in
+            l.removeFromSuperview()
+            self.addSubview(l)
+        }
     }
     
     override func layoutSubviews() {

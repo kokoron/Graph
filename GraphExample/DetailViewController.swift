@@ -23,6 +23,7 @@ class DetailViewController: UIViewController {
         if let detailItem = self.detailItem {
             
             let view = GraphView(frame: self.view.bounds, graphs: detailItem.1, appearance: detailItem.2)
+            view.clipsToBounds = false
             self.view.addSubview(view)
             self.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         }

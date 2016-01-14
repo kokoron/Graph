@@ -25,6 +25,15 @@ public enum Graph<T: Hashable, U: Numeric> {
         )
     }
     
+    static public func barGraph(tuples: [(T, [U])], minValue: U, maxValue: U, nameHandler: ((U) -> String?)? = nil, valueHandler: ((T) -> String?)? = nil) -> Graph<T, U> {
+        return .BarGraph(
+            GraphData(
+                graphUnits: tuples.map{GraphUnit<T, U>(key: $0.0, value: $0.1)},
+                grapthParams: GraphParams(maximumValue: maxValue, minimumValue: minValue)
+            )
+        )
+    }
+    
     static public func lineGraph(tuples: [(T, U)], minValue: U, maxValue: U, nameHandler: ((U) -> String?)? = nil, valueHandler: ((T) -> String?)? = nil) -> Graph<T, U> {
         return .LineGraph(
             GraphData(
