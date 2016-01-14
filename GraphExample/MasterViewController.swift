@@ -18,7 +18,9 @@ class MasterViewController: UITableViewController {
             [Graph.barGraph([("Jan.", [3, 1]), ("Feb.", [5, 3]), ("Mar.", [5, 2]), ("Apr.", [9, 3]), ("May.", [10, 3])], minValue: 0, maxValue: 30)],
             GraphViewAppearance(
                 colors: [UIColor.lightGrayColor(), UIColor.redColor()],
+                lineColor: nil,
                 textColors: [UIColor.darkGrayColor()],
+                lineValueColors: nil,
                 valueColors: [UIColor.darkGrayColor(), UIColor.redColor()],
                 blankColor: nil,
                 barWidthRatio: nil,
@@ -30,12 +32,14 @@ class MasterViewController: UITableViewController {
             "棒グラフ＆折線グラフ",
             [
                 Graph.barGraph([("Jan.", 1), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 10),
-                Graph.lineGraph([("Jan.", 8), ("Feb.", 3), ("Mar.", 2), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 50)
+                Graph.lineGraph([("Jan.", 8), ("Feb.", 3), ("Mar.", 0), ("Apr.", 8), ("May.", 6)], minValue: 0, maxValue: 50)
             ],
             GraphViewAppearance(
                 colors: [UIColor.lightGrayColor()],
-                textColors: nil,
-                valueColors: nil,
+                lineColor: [UIColor.redColor()],
+                textColors: [UIColor.darkGrayColor()],
+                lineValueColors: [UIColor.redColor()],
+                valueColors: [UIColor.darkGrayColor()],
                 blankColor: nil,
                 barWidthRatio: nil,
                 dotDiameter: nil,

@@ -32,8 +32,9 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     private let barWidthRatio: CGFloat
     
     
-    private lazy var bars: [BarView] = self.graphUnit.rates(self.minValue, maxValue: self.maxValue).map{
-        (CGRect(x: 0.0, y: self.frame.size.height - self.frame.size.height * CGFloat($0), width: self.frame.size.width, height: self.frame.size.height * CGFloat($0)), $0)
+    private lazy var bars: [BarView] = self.graphUnit.rates(self.minValue, maxValue: self.maxValue).map{(rate) -> (CGRect, Float) in
+        let h = self.frame.size.height - 20.0
+        return (CGRect(x: 0.0, y: h - h * CGFloat(rate), width: self.frame.size.width, height: h * CGFloat(rate)), rate)
     }.map{BarView(frame: $0, param: $1)}.map{(v) -> BarView in
         v.transform = CGAffineTransformMakeScale(CGFloat(self.barWidthRatio), 1.0)
         return v
@@ -46,6 +47,8 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         label.text = String(format: "%.0f%", b.param * 100.0)
         return label
     }
+    
+    
 
     init(
         frame: CGRect,
@@ -76,11 +79,22 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     func execute() {
         
         self.backgroundColor = UIColor.clearColor()
-        let blankView = UIView(frame: self.bounds)
+        let blankView = UIView(frame: CGRect(origin: CGPointZero, size: CGSize(width: self.bounds.size.width, height: self.bounds.size.height - 20.0)))
         blankView.transform = CGAffineTransformMakeScale(CGFloat(self.barWidthRatio), 1.0)
         blankView.backgroundColor = self.blankColor
         self.addSubview(blankView)
         blankView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        
+        let label = UILabel(
+            frame: CGRect(
+                origin: CGPoint(x: 0.0, y: self.frame.size.height - 20.0),
+                size: CGSize(width: self.frame.size.width, height: 20.0)
+            )
+        )
+        label.textAlignment = NSTextAlignment.Center
+        label.font = UIFont.systemFontOfSize(10.0)
+        label.text = String(self.graphUnit.key)
+        self.addSubview(label)
         
         self.setBackgroundColors(self.bars, colors: self.barColors)
         self.setLabelsColors(self.labels, colors: self.valueColors)

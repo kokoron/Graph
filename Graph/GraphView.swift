@@ -16,7 +16,9 @@ public struct GraphViewAppearance {
     
     // MARK: - Colors
     public var colors: [UIColor] = GraphViewAppearance.defaultColors
+    public var lineColor: [UIColor] = GraphViewAppearance.defaultColors
     public var textColors: [UIColor] = GraphViewAppearance.defaultColors
+    public var lineValueColors: [UIColor] = GraphViewAppearance.defaultColors
     public var valueColors: [UIColor] = GraphViewAppearance.defaultColors
     public var blankColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
     
@@ -31,7 +33,9 @@ public struct GraphViewAppearance {
     
     public init(
         colors: [UIColor]?,
+        lineColor: [UIColor]?,
         textColors: [UIColor]?,
+        lineValueColors: [UIColor]?,
         valueColors: [UIColor]?,
         blankColor: UIColor?,
         barWidthRatio: Float?,
@@ -43,8 +47,16 @@ public struct GraphViewAppearance {
             self.colors = colors
         }
         
+        if let lineColor = lineColor {
+            self.lineColor = lineColor
+        }
+        
         if let textColors = textColors {
             self.textColors = textColors
+        }
+        
+        if let lineValueColors = lineValueColors {
+            self.lineValueColors = lineValueColors
         }
         
         if let valueColors = valueColors {
@@ -115,6 +127,7 @@ class GraphLayerView<T: Hashable, U: Numeric>: UIView {
         self.appearance = appearance
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
+        self.clipsToBounds = false
         setup()
     }
 
