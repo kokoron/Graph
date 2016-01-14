@@ -17,6 +17,7 @@ public struct GraphViewAppearance {
     // MARK: - Colors
     public var colors: [UIColor] = GraphViewAppearance.defaultColors
     public var textColors: [UIColor] = GraphViewAppearance.defaultColors
+    public var valueColors: [UIColor] = GraphViewAppearance.defaultColors
     public var blankColor: UIColor = UIColor(white: 0.9, alpha: 1.0)
     
     // MARK: - Margin
@@ -31,6 +32,7 @@ public struct GraphViewAppearance {
     public init(
         colors: [UIColor]?,
         textColors: [UIColor]?,
+        valueColors: [UIColor]?,
         blankColor: UIColor?,
         barWidthRatio: Float?,
         dotDiameter: Float?,
@@ -43,6 +45,10 @@ public struct GraphViewAppearance {
         
         if let textColors = textColors {
             self.textColors = textColors
+        }
+        
+        if let valueColors = valueColors {
+            self.valueColors = valueColors
         }
         
         if let blankColor = blankColor {
@@ -119,7 +125,7 @@ class GraphLayerView<T: Hashable, U: Numeric>: UIView {
         switch graph {
         case .BarGraph(let data):
 
-            let views = data.graphUnits.map{BarGraphUnitView(frame: CGRectZero, graphUnit: $0, minValue: data.grapthParams.minimumValue, maxValue: data.grapthParams.maximumValue, blankColor: self.appearance.blankColor, barColors: self.appearance.colors, barWidthRatio: CGFloat(self.appearance.barWidthRatio))}
+            let views = data.graphUnits.map{BarGraphUnitView(frame: CGRectZero, graphUnit: $0, minValue: data.grapthParams.minimumValue, maxValue: data.grapthParams.maximumValue, blankColor: self.appearance.blankColor, barColors: self.appearance.colors, valueColors: self.appearance.valueColors, barWidthRatio: CGFloat(self.appearance.barWidthRatio))}
             let w = self.frame.size.width / CGFloat(views.count)
             for i in 0 ..< views.count {
                 views[i].frame = CGRect(x: w * CGFloat(i), y: 0.0, width: w, height: self.frame.size.height)

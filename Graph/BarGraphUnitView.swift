@@ -27,6 +27,7 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     private let minValue: U
     private let maxValue: U
     private let barColors: [UIColor]
+    private let valueColors: [UIColor]
     private let blankColor: UIColor
     private let barWidthRatio: CGFloat
     
@@ -39,8 +40,7 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
     }
     
     private lazy var labels: [UILabel] = self.bars.map{b -> UILabel in
-        let label = UILabel(frame: CGRect(origin: b.frame.origin, size: CGSize(width: b.frame.size.width, height: 20.0)))
-        label.textColor = UIColor.whiteColor()
+        let label = UILabel(frame: CGRect(origin: CGPoint(x: b.frame.origin.x, y: b.frame.origin.y - 20.0), size: CGSize(width: b.frame.size.width, height: 20.0)))
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(10.0)
         label.text = String(format: "%.0f%", b.param * 100.0)
@@ -54,12 +54,14 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         maxValue: U,
         blankColor: UIColor,
         barColors: [UIColor],
+        valueColors: [UIColor],
         barWidthRatio: CGFloat
     ) {
         self.graphUnit = graphUnit
         self.minValue = minValue
         self.maxValue = maxValue
         self.barColors = barColors
+        self.valueColors = valueColors
         self.blankColor = blankColor
         self.barWidthRatio = barWidthRatio
         super.init(frame: frame)
@@ -81,6 +83,7 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         blankView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         
         self.setBackgroundColors(self.bars, colors: self.barColors)
+        self.setLabelsColors(self.labels, colors: self.valueColors)
         self.bars.forEach({self.addSubview($0)})
         self.labels.forEach{self.addSubview($0)}
     }
@@ -91,6 +94,16 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         case let (.Some(h, t), .Some(h2, t2)):
             h.backgroundColor = h2
             return self.setBackgroundColors(t, colors: t2)
+        case _:
+            break
+        }
+    }
+    
+    private func setLabelsColors(labels: [UILabel], colors: [UIColor]) {
+        switch (labels.match, colors.match) {
+        case let (.Some(h, t), .Some(h2, t2)):
+            h.textColor = h2
+            self.setLabelsColors(t, colors: t2)
         case _:
             break
         }
