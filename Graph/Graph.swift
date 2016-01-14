@@ -123,7 +123,9 @@ public struct GraphUnit<T: Hashable, U: Numeric> {
     }
 }
 
-public protocol Numeric: Equatable {}
+public protocol Numeric: Equatable {
+    func formatDecimalString() -> String
+}
 
 extension Numeric {}
 extension Float: Numeric {}

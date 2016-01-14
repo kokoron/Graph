@@ -40,11 +40,11 @@ class BarGraphUnitView<T: Hashable, U: Numeric>: UIView {
         return v
     }
     
-    private lazy var labels: [UILabel] = self.bars.map{b -> UILabel in
+    private lazy var labels: [UILabel] = Array(zip(self.bars, self.graphUnit.value)).map{(b, v) -> UILabel in
         let label = UILabel(frame: CGRect(origin: CGPoint(x: b.frame.origin.x, y: b.frame.origin.y - 20.0), size: CGSize(width: b.frame.size.width, height: 20.0)))
         label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(10.0)
-        label.text = String(format: "%.0f%", b.param * 100.0)
+        label.text = v.formatDecimalString()
         return label
     }
     

@@ -30,7 +30,7 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
         label.textAlignment = NSTextAlignment.Center
         label.textColor = self.appearance.lineValueColors.first
         label.font = UIFont.systemFontOfSize(10.0)
-        label.text = String(v)
+        label.text = v.formatDecimalString()
         return label
     }
     
