@@ -24,7 +24,7 @@ class LineGraphView<T: Hashable, U: Numeric>: UIView {
         let label = UILabel(frame: CGRect(
             origin: CGPoint(
                 x: p.x - (w / 2.0),
-                y: p.y - 24.0
+                y: p.y - 30.0
             ),
             size: CGSize(width: w, height: 20.0)))
         label.textAlignment = NSTextAlignment.Center

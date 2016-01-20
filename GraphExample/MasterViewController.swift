@@ -15,7 +15,7 @@ class MasterViewController: UITableViewController {
     var objects = [
         (
             "棒グラフ",
-            [Graph.barGraph([("Jan.", [3000, 1111]), ("Feb.", [5000, 3000]), ("Mar.", [5200, 2222]), ("Apr.", [9000, 3]), ("May.", [10000, 3000])], minValue: 0, maxValue: 12000)],
+            [Graph.barGraph([("Jan.", [3000, 0]), ("Feb.", [5000, 0]), ("Mar.", [5200, 2222]), ("Apr.", [9000, 3]), ("May.", [10000, 3000])], minValue: 0, maxValue: 0)],
             GraphViewAppearance(
                 colors: [UIColor.lightGrayColor(), UIColor.redColor()],
                 lineColor: nil,
@@ -31,7 +31,7 @@ class MasterViewController: UITableViewController {
         (
             "棒グラフ＆折線グラフ",
             [
-                Graph.barGraph([("Jan.", 1000000), ("Feb.", 3000000), ("Mar.", 2000000), ("Apr.", 8000000), ("May.", 6000000)], minValue: 0, maxValue: 10000000),
+                Graph.barGraph([("Jan.", 16000000), ("Feb.", 3000000), ("Mar.", 2000000), ("Apr.", 8000000), ("May.", 6000000)], minValue: 0, maxValue: 50000000),
                 Graph.lineGraph([("Jan.", 8000000), ("Feb.", 3000000), ("Mar.", 0), ("Apr.", 8000000), ("May.", 6000000)], minValue: 0, maxValue: 50000000)
             ],
             GraphViewAppearance(
